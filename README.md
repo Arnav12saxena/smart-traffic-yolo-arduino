@@ -209,12 +209,8 @@ smart-traffic-yolo-arduino/
 │── arduino_traffic_controller.ino
 │── yolov8n.pt
 │── requirements.txt
-│── README.md
-│
-└── media/
-      ├── traffic_demo_1.png
-      ├── traffic_demo_2.png
-      └── system_architecture.png
+└── README.md
+
 ```
 
 ---
