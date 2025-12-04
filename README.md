@@ -136,7 +136,6 @@ smart-traffic-yolo-arduino/
 │── yolov8n.pt
 │── arduino_traffic_controller.ino
 │── requirements.txt
-│
 └── README.md
 ```
 
