@@ -15,7 +15,7 @@ A complete **AI + IoT pipeline** designed for smart city infrastructure.
 
 ---
 
-# 📌 1. Introduction
+# 📌 Introduction
 
 Traditional traffic lights operate on **fixed timers**, resulting in:
 
@@ -28,16 +28,16 @@ A smart city requires **adaptive, real-time traffic systems**.
 
 This project solves the issue using:
 
-### ✔ YOLOv8 for automatic vehicle detection  
-### ✔ Dynamic computation of green-light duration  
-### ✔ Arduino-controlled physical LEDs  
-### ✔ Real video feed (IP webcam or CCTV)
+✔ YOLOv8 for automatic vehicle detection  
+✔ Dynamic computation of green-light duration  
+✔ Arduino-controlled physical LEDs  
+✔ Real video feed (IP webcam or CCTV)
 
 The system intelligently adjusts signal timings based on real-time vehicle density.
 
 ---
 
-# 🎯 2. Project Objectives
+# 🎯 Project Objectives
 
 - ✔ Real-time vehicle detection using YOLOv8  
 - ✔ Count vehicles in each video frame  
@@ -49,7 +49,7 @@ The system intelligently adjusts signal timings based on real-time vehicle densi
 
 ---
 
-# 🧠 3. System Architecture
+# 🧠 System Architecture
 
 ```
 Camera Feed
@@ -77,7 +77,7 @@ LED Traffic Lights (Red–Yellow–Green)
 
 ---
 
-# 🗂 4. Detection Model (COCO YOLOv8n)
+# 🗂 Detection Model (COCO YOLOv8n)
 
 This system uses the **YOLOv8n** model trained on COCO (80 classes).
 
@@ -94,16 +94,16 @@ These are the most common vehicles in Indian traffic.
 
 ---
 
-# ⚙️ 5. How the System Works (Step-by-Step)
+# ⚙️ How the System Works
 
-## 🔹 Step 1 — Video Capture
+## 🔹 Video Capture
 ```python
 cap = cv2.VideoCapture("http://<your-ip>:8080/video")
 ```
 
 ---
 
-## 🔹 Step 2 — YOLOv8 Vehicle Detection
+## 🔹 YOLOv8 Vehicle Detection
 ```python
 results = model(frame)
 vehicle_boxes = [
@@ -114,7 +114,7 @@ vehicle_boxes = [
 
 ---
 
-## 🔹 Step 3 — Vehicle Count → Green Time
+## 🔹 Vehicle Count → Green Time
 ```python
 green_time = 3000 + vehicle_count * 1000
 ```
@@ -125,7 +125,7 @@ Examples:
 
 ---
 
-## 🔹 Step 4 — Send Signal Durations to Arduino
+## 🔹 Send Signal Durations to Arduino
 ```python
 command = f"{red_time},{yellow_time},{green_time}\n"
 arduino.write(command.encode())
@@ -133,19 +133,19 @@ arduino.write(command.encode())
 
 ---
 
-## 🔹 Step 5 — Arduino Controls LEDs
+## 🔹 Arduino Controls LEDs
 
 Arduino cycles:
 
-1. Red  
-2. Yellow  
-3. Green  
+- Red  
+- Yellow  
+- Green  
 
 Each according to durations received from Python.
 
 ---
 
-# 🔌 6. Arduino Hardware Implementation
+# 🔌 Arduino Hardware Implementation
 
 ### LED Wiring
 
@@ -156,24 +156,24 @@ Each according to durations received from Python.
 | Green | 11 |
 
 ### Arduino Logic
-- Read serial input  
-- Parse `"red,yellow,green"` values  
-- Control LEDs using `digitalWrite()`  
-- Use `delay()` based on timings  
+- Reads serial input  
+- Parses `red,yellow,green` timings  
+- Controls LEDs with `digitalWrite()`  
+- Uses `delay()` for timing  
 
 ---
 
-# 🧪 7. Python YOLO Script (`test_camera.py`)
+# 🧪 Python YOLO Script (`test_camera.py`)
 
 Handles:
 
 - YOLOv8 inference  
 - Frame capture  
 - Detection & counting  
-- Timing calculations  
-- Box drawing  
+- Timing calculation  
+- Bounding box drawing  
 - Serial communication  
-- Displaying real-time output  
+- Real-time display  
 
 ### Dependencies:
 - ultralytics  
@@ -182,7 +182,7 @@ Handles:
 
 ---
 
-# 🔧 8. Installation & Setup
+# 🔧 Installation & Setup
 
 ### Install Python dependencies
 ```bash
@@ -201,7 +201,7 @@ python test_camera.py
 
 ---
 
-# 📁 9. Recommended Project Structure
+# 📁 Recommended Project Structure
 
 ```
 smart-traffic-yolo-arduino/
@@ -214,52 +214,51 @@ smart-traffic-yolo-arduino/
 
 ---
 
-# 📊 10. Results & Demo
+# 📊 Results & Demo
 
 ✔ Real-time detection at **15–30 FPS**  
-✔ Robust identification of cars, bikes, buses, trucks  
+✔ Detects cars, bikes, buses, and trucks  
 ✔ Stable serial communication  
-✔ Dynamic timing works reliably  
-✔ LEDs controlled accurately  
-✔ Full AI → IoT → Hardware prototype demonstrated  
+✔ Dynamic green-light timing  
+✔ Accurate LED control  
+✔ Full AI → IoT → Hardware workflow  
 
 **Screenshots/video recommended inside `/media`.**
 
 ---
 
-# 🚀 11. Future Enhancements
+# 🚀 Future Enhancements
 
 ### 🔵 ML Improvements
-- Train YOLO on Indian traffic dataset  
-- Add vehicle tracking (DeepSORT)  
+- Train YOLO on Indian traffic datasets  
+- Add DeepSORT tracking  
 - Add speed estimation  
 
 ### 🔴 IoT & Hardware Improvements
-- Use ESP32 for wireless control  
-- Use Raspberry Pi for edge inference  
-- Solar-powered smart signal poles  
+- Switch to ESP32 (WiFi control)  
+- Raspberry Pi for on-device inference  
+- Solar-powered smart signal unit  
 
 ### 🟨 Additional Features
 - Emergency vehicle priority  
-- Multi-intersection network  
-- Cloud-based analytics dashboard  
-- Route optimization using density heatmaps  
+- Multi-intersection coordination  
+- Traffic analytics dashboard  
+- Dynamic route optimization  
 
 ---
 
-# 🏁 12. Conclusion
+# 🏁 Conclusion
 
-This project demonstrates how **real-time AI + IoT hardware** can significantly improve traffic efficiency.
-
-It successfully integrates:
+This project demonstrates how **AI + IoT hardware** can greatly improve traffic efficiency.  
+It successfully combines:
 
 - Computer Vision  
 - Embedded Systems  
 - Adaptive Algorithms  
-- Serial Communication  
-- Practical Hardware Execution  
+- Real-time serial communication  
+- Hardware execution  
 
-A strong foundation for **next-generation smart city traffic management** systems.
+A strong foundation for **next-generation smart traffic systems**.
 
 ---
 
