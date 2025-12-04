@@ -137,13 +137,6 @@ smart-traffic-yolo-arduino/
 │── arduino_traffic_controller.ino
 │── requirements.txt
 │
-├── hardware/
-│     ├── wiring_diagram.png        # optional
-│     └── traffic_light_photo.jpg   # optional
-│
-├── results/
-│     ├── detection_example.png     # optional
-│
 └── README.md
 ```
 
