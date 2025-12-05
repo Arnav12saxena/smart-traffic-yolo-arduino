@@ -223,8 +223,6 @@ smart-traffic-yolo-arduino/
 ✔ Accurate LED control  
 ✔ Full AI → IoT → Hardware workflow  
 
-**Screenshots/video recommended inside `/media`.**
-
 ---
 
 # 🚀 Future Enhancements
