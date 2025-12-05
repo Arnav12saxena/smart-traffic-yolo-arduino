@@ -1,4 +1,3 @@
-Dependencies to Install:
 ultralytics
 opencv-python
 pyserial
