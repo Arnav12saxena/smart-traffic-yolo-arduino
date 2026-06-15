@@ -1,268 +1,216 @@
-# 🚦 Smart Traffic Control System Using YOLOv8 + Arduino  
-### AI-Powered Real-Time Vehicle Detection · Adaptive Traffic Signal Optimization · Computer Vision + IoT Integration
+# 🚦 Smart Traffic Control System Using YOLOv8 + Arduino
 
-This project presents an intelligent traffic management system that dynamically adjusts traffic signal timings using **real-time vehicle detection** powered by YOLOv8, along with hardware-level execution through an **Arduino-driven LED traffic light system**.
+### AI-Powered Real-Time Vehicle Detection · Adaptive Traffic Signal Prioritization · Computer Vision + IoT Integration
+
+This project presents an intelligent traffic management system that uses real-time vehicle detection powered by YOLOv8 to dynamically prioritize traffic flow at an intersection.
+
+The system monitors traffic density using computer vision and automatically controls two Arduino-based traffic signal modules. When congestion exceeds a predefined threshold, the system grants signal priority to the congested road, demonstrating adaptive traffic control instead of traditional fixed-time signaling.
 
 It integrates:
 
-- **Computer Vision (YOLOv8)**
-- **Python → Arduino Serial Communication**
-- **Adaptive Signal Timing Algorithms**
-- **IoT Hardware Control**
-- **Live Video Inference**
+* Computer Vision (YOLOv8)
+* Real-Time Vehicle Detection
+* Python → Arduino Serial Communication
+* Intelligent Traffic Prioritization
+* IoT Hardware Control
+* Live Video Inference
 
-A complete **AI + IoT pipeline** designed for smart city infrastructure.
+A complete AI + IoT prototype designed for next-generation smart traffic infrastructure.
 
 ---
 
 # 📌 Introduction
 
-Traditional traffic lights operate on **fixed timers**, resulting in:
+Traditional traffic lights operate using fixed timers regardless of actual traffic conditions. This often leads to:
 
-- Long waiting times during low-traffic periods  
-- Congestion during peak hours  
-- Fuel wastage and increased emissions  
-- Inefficient traffic flow  
+* Unnecessary waiting times
+* Traffic congestion
+* Fuel wastage
+* Increased emissions
+* Poor traffic flow efficiency
 
-A smart city requires **adaptive, real-time traffic systems**.
+To address this issue, this project introduces an AI-driven traffic management system that continuously analyzes traffic density and dynamically allocates signal priority.
 
-This project solves the issue using:
-
-✔ YOLOv8 for automatic vehicle detection  
-✔ Dynamic computation of green-light duration  
-✔ Arduino-controlled physical LEDs  
-✔ Real video feed (IP webcam or CCTV)
-
-The system intelligently adjusts signal timings based on real-time vehicle density.
+Using YOLOv8, vehicles are detected and counted in real time from a live camera feed. Based on the detected traffic density, the system automatically decides which road receives priority and updates the physical traffic lights through an Arduino Uno.
 
 ---
 
 # 🎯 Project Objectives
 
-- ✔ Real-time vehicle detection using YOLOv8  
-- ✔ Count vehicles in each video frame  
-- ✔ Calculate signal timings based on density  
-- ✔ Send timings to Arduino via serial communication  
-- ✔ Physically control R–Y–G LEDs  
-- ✔ Demonstrate complete CV → IoT → Hardware workflow  
-- ✔ Support any camera input  
+✔ Detect vehicles in real time using YOLOv8
+
+✔ Count traffic density from a live camera feed
+
+✔ Classify traffic as normal or congested
+
+✔ Implement adaptive traffic signal control
+
+✔ Control physical traffic lights using Arduino
+
+✔ Demonstrate Computer Vision + IoT integration
+
+✔ Simulate intelligent intersection management
 
 ---
 
 # 🧠 System Architecture
 
-```
-Camera Feed
-      ↓
-YOLOv8 Vehicle Detection (Python)
-      ↓
-Vehicle Count
-      ↓
-Adaptive Timing Algorithm
-      ↓
-Serial Communication (USB)
-      ↓
-Arduino UNO
-      ↓
-LED Traffic Lights (Red–Yellow–Green)
-```
-
-### Components
-
-- **YOLOv8n (COCO pretrained)**
-- **Python (Ultralytics, OpenCV, PySerial)**
-- **Arduino UNO**
-- **LED traffic light prototype**
-- **Android IP Webcam App / USB Camera**
-
----
-
-# 🗂 Detection Model (COCO YOLOv8n)
-
-This system uses the **YOLOv8n** model trained on COCO (80 classes).
-
-### 🚘 Vehicle classes selected:
-
-| Vehicle Type | COCO ID | Used? |
-|--------------|---------|--------|
-| Car | 2 | ✔ |
-| Motorcycle | 3 | ✔ |
-| Bus | 5 | ✔ |
-| Truck | 7 | ✔ |
-
-These are the most common vehicles in Indian traffic.
+Camera Feed (Road A)
+↓
+YOLOv8 Vehicle Detection
+↓
+Vehicle Counting
+↓
+Traffic Density Analysis
+↓
+Decision Engine
+↓
+Python → Arduino Communication
+↓
+Traffic Signal Control
+↓
+Road A / Road B Priority Assignment
 
 ---
 
 # ⚙️ How the System Works
 
-## 🔹 Video Capture
-```python
-cap = cv2.VideoCapture("http://<your-ip>:8080/video")
-```
+## Step 1: Vehicle Detection
+
+The camera continuously monitors Road A.
+
+YOLOv8 detects:
+
+* Cars
+* Motorcycles
+* Buses
+* Trucks
+
+in every frame.
 
 ---
 
-## 🔹 YOLOv8 Vehicle Detection
-```python
-results = model(frame)
-vehicle_boxes = [
-    box for i, box in enumerate(results[0].boxes)
-    if int(results[0].boxes.cls[i]) in [2, 3, 5, 7]
-]
-```
+## Step 2: Vehicle Counting
+
+Detected vehicles are counted to estimate traffic density.
+
+Example:
+
+Vehicle Count = 3
+
+Vehicle Count = 15
+
+Vehicle Count = 28
 
 ---
 
-## 🔹 Vehicle Count → Green Time
-```python
-green_time = 3000 + vehicle_count * 1000
-```
+## Step 3: Intelligent Decision Making
 
-Examples:  
-- 0 vehicles → **3 seconds** green  
-- 5 vehicles → **8 seconds** green  
+A congestion threshold is defined.
 
----
+Example:
 
-## 🔹 Send Signal Durations to Arduino
-```python
-command = f"{red_time},{yellow_time},{green_time}\n"
-arduino.write(command.encode())
-```
+Threshold = 10 Vehicles
 
----
+Decision Logic:
 
-## 🔹 Arduino Controls LEDs
+If Vehicle Count ≥ 10
 
-Arduino cycles:
+→ Road A receives priority
 
-- Red  
-- Yellow  
-- Green  
+If Vehicle Count < 10
 
-Each according to durations received from Python.
+→ Road B receives priority
 
 ---
 
-# 🔌 Arduino Hardware Implementation
+## Step 4: Signal Control
 
-### LED Wiring
+Road A Priority:
 
-| LED Color | Arduino Pin |
-|-----------|-------------|
-| Red | 13 |
-| Yellow | 12 |
-| Green | 11 |
+* Road A → GREEN
+* Road B → RED
 
-### Arduino Logic
-- Reads serial input  
-- Parses `red,yellow,green` timings  
-- Controls LEDs with `digitalWrite()`  
-- Uses `delay()` for timing  
+Road B Priority:
+
+* Road A → RED
+* Road B → GREEN
+
+The decision is transmitted from Python to Arduino using serial communication.
 
 ---
 
-# 🧪 Python YOLO Script (`test_camera.py`)
+# 🔌 Hardware Setup
 
-Handles:
+## Traffic Light A (Road A)
 
-- YOLOv8 inference  
-- Frame capture  
-- Detection & counting  
-- Timing calculation  
-- Bounding box drawing  
-- Serial communication  
-- Real-time display  
+* Red → Pin 13
+* Yellow → Pin 12
+* Green → Pin 11
 
-### Dependencies:
-- ultralytics  
-- opencv-python  
-- pyserial  
+## Traffic Light B (Road B)
 
----
+* Red → Pin 10
+* Yellow → Pin 9
+* Green → Pin 8
 
-# 🔧 Installation & Setup
+## Components
 
-### Install Python dependencies
-```bash
-pip install ultralytics opencv-python pyserial
-```
-
-### Upload Arduino code
-- Open Arduino IDE  
-- Select correct **COM port**  
-- Upload `arduino_traffic_controller.ino`  
-
-### Run the detection script
-```bash
-python test_camera.py
-```
+* Arduino Uno
+* 2 Traffic Light Modules
+* Android IP Webcam
+* YOLOv8n Model
+* Python
+* OpenCV
+* PySerial
 
 ---
 
-# 📁 Recommended Project Structure
+# 📊 Results
 
-```
-smart-traffic-yolo-arduino/
-│── test_camera.py
-│── arduino_traffic_controller.ino
-│── yolov8n.pt
-│── requirements.txt
-└── README.md
-```
+✔ Real-time vehicle detection
 
----
+✔ Adaptive traffic prioritization
 
-# 📊 Results & Demo
+✔ Automatic signal switching
 
-✔ Real-time detection at **15–30 FPS**  
-✔ Detects cars, bikes, buses, and trucks  
-✔ Stable serial communication  
-✔ Dynamic green-light timing  
-✔ Accurate LED control  
-✔ Full AI → IoT → Hardware workflow  
+✔ Stable Arduino communication
+
+✔ AI-driven decision making
+
+✔ Complete Computer Vision → IoT → Hardware workflow
 
 ---
 
 # 🚀 Future Enhancements
 
-### 🔵 ML Improvements
-- Train YOLO on Indian traffic datasets  
-- Add DeepSORT tracking  
-- Add speed estimation  
+### AI Improvements
 
-### 🔴 IoT & Hardware Improvements
-- Switch to ESP32 (WiFi control)  
-- Raspberry Pi for on-device inference  
-- Solar-powered smart signal unit  
+* Custom-trained traffic models
+* Vehicle tracking using DeepSORT
+* Lane-specific vehicle counting
+* Speed estimation
 
-### 🟨 Additional Features
-- Emergency vehicle priority  
-- Multi-intersection coordination  
-- Traffic analytics dashboard  
-- Dynamic route optimization  
+### Hardware Improvements
+
+* Multiple cameras
+* Multi-intersection deployment
+* ESP32 wireless communication
+* Raspberry Pi edge inference
+
+### Smart City Features
+
+* Emergency vehicle prioritization
+* Traffic analytics dashboard
+* Route optimization
+* Cloud-based monitoring
 
 ---
 
 # 🏁 Conclusion
 
-This project demonstrates how **AI + IoT hardware** can greatly improve traffic efficiency.  
-It successfully combines:
+This project demonstrates how Artificial Intelligence and IoT can be combined to build adaptive traffic management systems.
 
-- Computer Vision  
-- Embedded Systems  
-- Adaptive Algorithms  
-- Real-time serial communication  
-- Hardware execution  
+Using YOLOv8 for real-time vehicle detection and Arduino-controlled traffic signals, the system dynamically prioritizes traffic flow based on congestion levels.
 
-A strong foundation for **next-generation smart traffic systems**.
-
----
-
-# 📬 Contact
-
-**Arnav Saxena**  
-AI/ML · Computer Vision · Embedded Systems  
-📧 Email: **arnav12saxena@gmail.com**  
-🔗 LinkedIn: https://www.linkedin.com/in/arnav-saxena-a9a217367  
+The project serves as a practical prototype for intelligent transportation systems and smart-city infrastructure.
