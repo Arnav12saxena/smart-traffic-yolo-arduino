@@ -1,43 +1,62 @@
-int red = 13;
-int yellow = 12;
-int green = 11;
+int RA = 13;
+int YA = 12;
+int GA = 11;
+
+int RB = 10;
+int YB = 9;
+int GB = 8;
+
+void allOff() {
+  digitalWrite(RA, LOW);
+  digitalWrite(YA, LOW);
+  digitalWrite(GA, LOW);
+
+  digitalWrite(RB, LOW);
+  digitalWrite(YB, LOW);
+  digitalWrite(GB, LOW);
+}
+
+void roadAGreen() {
+  allOff();
+
+  digitalWrite(GA, HIGH);
+  digitalWrite(RB, HIGH);
+}
+
+void roadBGreen() {
+  allOff();
+
+  digitalWrite(RA, HIGH);
+  digitalWrite(GB, HIGH);
+}
 
 void setup() {
-  pinMode(red, OUTPUT);
-  pinMode(yellow, OUTPUT);
-  pinMode(green, OUTPUT);
+  pinMode(RA, OUTPUT);
+  pinMode(YA, OUTPUT);
+  pinMode(GA, OUTPUT);
+
+  pinMode(RB, OUTPUT);
+  pinMode(YB, OUTPUT);
+  pinMode(GB, OUTPUT);
+
   Serial.begin(9600);
-  allOff();
+
+  roadBGreen(); // default state
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-    String input = Serial.readStringUntil('\n');
-    int redTime = 0, yellowTime = 0, greenTime = 0;
 
-    // Parse timings: format "5000,2000,3000"
-    sscanf(input.c_str(), "%d,%d,%d", &redTime, &yellowTime, &greenTime);
+  if (Serial.available()) {
 
-    // Update lights based on received durations
-    allOff();
-    digitalWrite(red, HIGH);
-    delay(redTime);
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
 
-    allOff();
-    digitalWrite(yellow, HIGH);
-    delay(yellowTime);
+    if (cmd == "A") {
+      roadAGreen();
+    }
 
-    allOff();
-    digitalWrite(green, HIGH);
-    delay(greenTime);
-
-    allOff();
-    delay(500);  // optional pause before next command
+    else if (cmd == "B") {
+      roadBGreen();
+    }
   }
-}
-
-void allOff() {
-  digitalWrite(red, LOW);
-  digitalWrite(yellow, LOW);
-  digitalWrite(green, LOW);
 }
