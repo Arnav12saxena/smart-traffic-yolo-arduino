@@ -176,6 +176,23 @@ The decision is transmitted from Python to Arduino using serial communication.
 
 ---
 
+## 📊 Quantitative Benchmark (Pending)
+
+The current repository documents a working prototype, but does not yet publish a reproducible quantitative evaluation. Record the following on a fixed test video and documented hardware before making performance claims.
+
+| Metric | Measurement method | Status |
+|---|---|---|
+| Vehicle detection precision / recall | Manually labelled frames from the monitored Road A video | Pending |
+| Vehicle-count error | Mean absolute error against manually counted vehicles | Pending |
+| Decision-rule correctness | Compare Road A / Road B priority decisions with the stated 10-vehicle rule | Pending |
+| Inference speed | Frames per second on the documented machine | Pending |
+| Signal response latency | Time from threshold decision to Arduino signal change | Pending |
+
+## 🎥 Demo Video
+
+A short recording is still to be added. It should show the single-road camera feed, YOLOv8n detections and count, the 10-vehicle threshold decision, and the corresponding Arduino traffic-light change. No demo video is currently committed to this repository.
+
+
 # 🚀 Future Enhancements
 
 ### AI Improvements
