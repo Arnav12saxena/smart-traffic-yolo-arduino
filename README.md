@@ -1,6 +1,6 @@
 # 🚦 Smart Traffic Control System Using YOLOv8 + Arduino
 
-### AI-Powered Real-Time Vehicle Detection · Adaptive Traffic Signal Prioritization · Computer Vision + IoT Integration
+### Pretrained YOLOv8n Vehicle Detection · Threshold-Based Two-Road Priority · Computer Vision + IoT Integration
 
 This 2025 prototype uses a **pretrained YOLOv8n model** to detect and count vehicles in a live camera feed covering **one road (Road A)**. A simple threshold-based rule then selects which of two roads receives priority: when the detected count on Road A is at least 10, Road A receives priority; otherwise, Road B receives priority. Python sends the decision to an Arduino Uno that controls two physical traffic-light modules.
 
@@ -59,7 +59,7 @@ Pretrained YOLOv8n Vehicle Detection
 ↓
 Vehicle Counting
 ↓
-Traffic Density Analysis
+Road A Vehicle Count
 ↓
 Decision Engine
 ↓
@@ -90,7 +90,7 @@ in every frame.
 
 ## Step 2: Vehicle Counting
 
-Detected vehicles are counted to estimate traffic density.
+Vehicles detected in the monitored Road A feed are counted and compared with the fixed 10-vehicle threshold.
 
 Example:
 
