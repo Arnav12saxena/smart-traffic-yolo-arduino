@@ -2,9 +2,9 @@
 
 ### AI-Powered Real-Time Vehicle Detection · Adaptive Traffic Signal Prioritization · Computer Vision + IoT Integration
 
-This project presents an intelligent traffic management system that uses real-time vehicle detection powered by YOLOv8 to dynamically prioritize traffic flow at an intersection.
+This 2025 prototype uses a **pretrained YOLOv8n model** to detect and count vehicles in a live camera feed covering **one road (Road A)**. A simple threshold-based rule then selects which of two roads receives priority: when the detected count on Road A is at least 10, Road A receives priority; otherwise, Road B receives priority. Python sends the decision to an Arduino Uno that controls two physical traffic-light modules.
 
-The system monitors traffic density using computer vision and automatically controls two Arduino-based traffic signal modules. When congestion exceeds a predefined threshold, the system grants signal priority to the congested road, demonstrating adaptive traffic control instead of traditional fixed-time signaling.
+This is a two-road priority demonstration—not lane-wise density estimation or a multi-camera, multi-intersection traffic-management system.
 
 It integrates:
 
@@ -15,7 +15,7 @@ It integrates:
 * IoT Hardware Control
 * Live Video Inference
 
-A complete AI + IoT prototype designed for next-generation smart traffic infrastructure.
+A small-scale AI + IoT prototype demonstrating vehicle detection, threshold-based priority selection, and physical signal control.
 
 ---
 
@@ -29,9 +29,7 @@ Traditional traffic lights operate using fixed timers regardless of actual traff
 * Increased emissions
 * Poor traffic flow efficiency
 
-To address this issue, this project introduces an AI-driven traffic management system that continuously analyzes traffic density and dynamically allocates signal priority.
-
-Using YOLOv8, vehicles are detected and counted in real time from a live camera feed. Based on the detected traffic density, the system automatically decides which road receives priority and updates the physical traffic lights through an Arduino Uno.
+To explore a camera-driven alternative, this prototype counts vehicles in a live feed from one road. It uses a fixed threshold of 10 vehicles to choose between Road A and Road B, then updates the two physical traffic-light modules through an Arduino Uno.
 
 ---
 
@@ -39,17 +37,17 @@ Using YOLOv8, vehicles are detected and counted in real time from a live camera 
 
 ✔ Detect vehicles in real time using YOLOv8
 
-✔ Count traffic density from a live camera feed
+✔ Count vehicles in the monitored Road A camera feed
 
 ✔ Classify traffic as normal or congested
 
-✔ Implement adaptive traffic signal control
+✔ Apply a fixed-threshold, two-road priority rule
 
 ✔ Control physical traffic lights using Arduino
 
 ✔ Demonstrate Computer Vision + IoT integration
 
-✔ Simulate intelligent intersection management
+✔ Demonstrate a small-scale two-road signal-control prototype
 
 ---
 
@@ -57,7 +55,7 @@ Using YOLOv8, vehicles are detected and counted in real time from a live camera 
 
 Camera Feed (Road A)
 ↓
-YOLOv8 Vehicle Detection
+Pretrained YOLOv8n Vehicle Detection
 ↓
 Vehicle Counting
 ↓
@@ -96,11 +94,7 @@ Detected vehicles are counted to estimate traffic density.
 
 Example:
 
-Vehicle Count = 3
-
-Vehicle Count = 15
-
-Vehicle Count = 28
+Example vehicle counts are evaluated from the monitored Road A feed.
 
 ---
 
@@ -209,8 +203,4 @@ The decision is transmitted from Python to Arduino using serial communication.
 
 # 🏁 Conclusion
 
-This project demonstrates how Artificial Intelligence and IoT can be combined to build adaptive traffic management systems.
-
-Using YOLOv8 for real-time vehicle detection and Arduino-controlled traffic signals, the system dynamically prioritizes traffic flow based on congestion levels.
-
-The project serves as a practical prototype for intelligent transportation systems and smart-city infrastructure.
+This project demonstrates a basic computer-vision-to-hardware workflow: pretrained YOLOv8n detects vehicles in one road feed, a 10-vehicle threshold selects Road A or Road B priority, and Python communicates the decision to an Arduino Uno. It is an educational prototype rather than a validated city-scale traffic-control system.
