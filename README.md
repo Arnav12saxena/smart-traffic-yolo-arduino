@@ -176,6 +176,22 @@ The decision is transmitted from Python to Arduino using serial communication.
 
 ---
 
+# 📸 Hardware–Software Demonstration
+
+The photograph below documents the working prototype, showing the YOLOv8n vehicle-detection output alongside the Arduino Uno and physical traffic-light modules.
+
+![Traffic detection software and Arduino hardware demonstration](assets/demo/traffic-hardware-software-demo.jpeg)
+
+The demonstration brings together:
+- Vehicle detection and bounding-box visualization on the laptop.
+- Vehicle counting from the camera feed.
+- Arduino Uno connected to physical traffic-light modules.
+- The software and hardware components of the prototype.
+
+> The image documents the prototype setup; quantitative performance measurements are listed separately below.
+
+---
+
 ## 📊 Quantitative Benchmark (Pending)
 
 The current repository documents a working prototype, but does not yet publish a reproducible quantitative evaluation. Record the following on a fixed test video and documented hardware before making performance claims.
